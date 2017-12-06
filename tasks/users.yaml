@@ -10,3 +10,20 @@
 
 - name: Deploy ssh public key
   authorized_key: user="{{ ssh_user }}" key="{{ ssh_pub_key }}"
+
+- name: Setup bashrc
+  copy:
+    src: templates/bashrc
+    dest: /home/{{ ssh_user }}/.bashrc
+
+- file:
+    src: /home/{{ ssh_user }}/.bashrc
+    dest: /home/{{ ssh_user }}/.profile
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    state: link
+
+- file:
+    path: /home/{{ ssh_user }}/.hushlogin
+    state: touch
+    mode: 600

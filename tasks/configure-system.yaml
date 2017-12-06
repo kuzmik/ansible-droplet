@@ -1,3 +1,9 @@
+- name: Remove motds
+  shell: |
+    echo '' > /etc/motd
+    echo '' > /etc/issue
+    echo '' > /etc/issue.net
+
 - name: Restrict Core Dumps - cleanup kernal params
   lineinfile:
     dest: /etc/sysctl.conf
@@ -23,4 +29,4 @@
   service: name=ntp enabled=no state=stopped
 
 - name: Disable unscd
-  service: name=unscd enabled=no state=stopped
+  service: name=unscd enabled=no state=stopped    
