@@ -1,0 +1,7 @@
+Package: *systemd*
+Pin: release *
+Pin-Priority: -1
+
+Package: libsystemd0
+Pin: version *
+Pin-Priority: 500

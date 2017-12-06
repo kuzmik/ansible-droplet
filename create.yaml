@@ -1,0 +1,22 @@
+# Create a DO droplet
+- hosts: localhost
+  connection: local
+  vars_files:
+    - vars.yaml
+  tasks:
+    - include_tasks: tasks/digitalocean.yaml
+
+# Run the playbooks on the droplet
+- hosts: dohosts
+  vars_files:
+    - vars.yaml
+  handlers:
+    - import_tasks: handlers/site.yaml
+  tasks:
+    - include_tasks: tasks/install-packages.yaml
+    - include_tasks: tasks/configure.yaml
+    # this task includes two reboots and two pauses if things change wrt systemd
+    - include_tasks: tasks/remove-systemd.yaml
+    - include_tasks: tasks/users.yaml
+    # This needs to be the last step because it changes sshd port and locks out root
+    - include_tasks: tasks/security.yaml

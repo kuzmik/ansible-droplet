@@ -1,0 +1,51 @@
+---
+- name: Install an actual init system
+  apt:
+    pkg: sysvinit-core
+    state: latest
+
+- stat: path=/etc/inittab
+  register: inittab_exists
+
+- name: Setup sysvinit
+  command: cp /usr/share/sysvinit/inittab /etc/inittab
+  when: inittab_exists.stat.exists == False
+
+- name: Disable systemd for future apt installs
+  copy:
+    src: templates/no-systemd
+    dest: /etc/apt/preferences.d/no-systemd
+  notify:
+    - restart server
+    - wait for server to boot
+
+- meta: flush_handlers
+
+- name: PURGE SYSTEMD
+  apt: name={{ item }} state=absent
+  with_items:
+    - dbus
+    - libdbus-1-3
+    - systemd
+
+- apt: 
+    autoremove: yes
+- apt: 
+    autoclean: yes
+- apt:
+    purge: yes
+
+- name: Continue the purge of systemd
+  shell: "updatedb && locate systemd | egrep -v '(no-systemd|libsystemd)' | xargs rm -rf"
+
+- name: Remove unnecessary users
+  user: name={{ item }} state=absent
+  with_items:
+    - systemd-bus-proxy
+    - systemd-journal
+    - systemd-network
+    - systemd-resolve
+    - systemd-timesync
+  notify:
+    - restart server
+    - wait for server to boot

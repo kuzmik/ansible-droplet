@@ -1,0 +1,23 @@
+---
+- name: restart sshd
+  command: /etc/init.d/ssh restart
+
+- name: restart nginx
+  command: /etc/init.d/nginx restart 
+
+- name: reload sysctl
+  command: sysctl -p
+
+- name: restart server
+  shell: nohup bash -c "sleep 2s && reboot" &
+  async: 0
+  poll: 0
+  ignore_errors: true
+
+- name: wait for server to boot
+  local_action:
+    module: wait_for
+      host={{ ansible_ssh_host }}
+      port=22
+      delay=1
+      timeout=60

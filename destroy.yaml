@@ -1,0 +1,15 @@
+- hosts: localhost
+  connection: local
+  vars_files:
+    - vars.yaml
+  vars_prompt:
+    - name: do_name
+      prompt: "Name of server to destroy"
+      private: no
+  tasks:
+    - name: Delete droplet
+      digital_ocean:
+        state: absent
+        name: "{{ do_name }}"
+        unique_name: yes
+        api_token: "{{ do_api_token }}"

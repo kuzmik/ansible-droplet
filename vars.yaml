@@ -1,0 +1,25 @@
+---
+# DO API v2 settings
+do_api_token: ~
+
+# DO SSH key settings
+do_ssh_name: root
+do_ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+do_ssh_private_key: "~/.ssh/id_rsa"
+do_ssh_key_fingerprint: a8:bc:fd:ff:be:42:18:d7:c3:f9:86:64:ee:6e:dd:b0
+
+# DO droplet settings
+do_region: sfo2
+do_size: 512mb
+do_image: "debian-9-x64"
+
+# System user to create
+ssh_user: "nick"
+ssh_groups: "sudo"
+ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+# Admin Email
+admin_email: nick@kuzmik.org
+
+# System config vars
+ssh_port: 8008

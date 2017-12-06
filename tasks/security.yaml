@@ -1,0 +1,131 @@
+---
+- name: Restrict Core Dumps - update limits
+  lineinfile:
+    dest: /etc/security/limits.conf
+    insertbefore: "# End of file"
+    line: "*  hard  core  0"
+
+- name: Restrict Core Dumps - cleanup kernal params
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: "fs.suid_dumpable = 0"
+  notify:
+    - reload sysctl
+
+- name: Ensure sudoers.d is enabled
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^#includedir /etc/sudoers.d'
+    line: '#includedir /etc/sudoers.d'
+    state: present
+    backup: yes
+
+- name: Set Permissions on /etc/ssh/sshd_config
+  file:
+    path: /etc/ssh/sshd_config
+    state: file
+    mode: 0600
+    owner: root
+    group: root
+
+- name: Set up password-less sudo for admin users
+  copy:
+    content: "%{{ ssh_groups }} ALL=(ALL) NOPASSWD:ALL\nDefaults    env_keep+=SSH_AUTH_SOCK\n"
+    dest: /etc/sudoers.d/admin
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Set User/Group Owner and Permission on /etc/crontab
+  file:
+    path: /etc/crontab
+    state: file
+    mode: og-rwx
+
+- name: Set User/Group Owner and Permission on /etc/cron.hourly
+  file:
+    path: /etc/cron.hourly
+    state: directory
+    mode: og-rwx
+
+- name: Set User/Group Owner and Permission on /etc/cron.daily
+  file:
+    path: /etc/cron.daily
+    state: directory
+    mode: og-rwx
+
+- name: Set User/Group Owner and Permission on /etc/cron.weekly
+  file:
+    path: /etc/cron.weekly
+    state: directory
+    mode: og-rwx
+
+- name: Set User/Group Owner and Permission on /etc/cron.monthly
+  file:
+    path: /etc/cron.monthly
+    state: directory
+    mode: og-rwx
+
+- name: Set User/Group Owner and Permission on /etc/cron.d
+  file:
+    path: /etc/cron.d
+    state: directory
+    mode: og-rwx
+
+- name: Restrict cron to Authorized Users (Remove cron.deny)
+  file:
+    path: /etc/cron.deny
+    state: absent
+
+- name: Restrict at to Authorized Users (Remove at.deny)
+  file:
+    path: /etc/at.deny
+    state: absent
+
+- name: Restrict at to Authorized Users
+  file:
+    path: /etc/at.allow
+    state: touch
+    mode: og-rwx
+    owner: root
+    group: root
+
+- name: Restrict cron to Authorized Users
+  file:
+    path: /etc/cron.allow
+    state: touch
+    mode: og-rwx
+    owner: root
+    group: root    
+
+- name: Remove unnecessary users
+  user: name={{ item }} state=absent
+  with_items:
+    - gnats
+    - list
+    - uucp
+    - news
+    - lp
+    - games
+    - proxy
+
+- name: Set shell to nologin for users
+  user: name={{ item }} shell=/usr/sbin/nologin
+  with_items:
+    - _apt
+    - backup
+    - bin
+    - daemon
+    - debian
+    - irc
+    - mail
+    - man
+    - messagebus
+    - nobody
+    - ntp
+    - sync
+    - sys
+    - unscd
+
+- name: Secure root's home directory
+  file: dest=/root state=directory mode=700
