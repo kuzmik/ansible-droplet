@@ -49,3 +49,5 @@
   notify:
     - restart server
     - wait for server to boot
+
+- meta: flush_handlers

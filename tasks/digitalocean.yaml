@@ -3,7 +3,7 @@
   digital_ocean:
     state: active
     command: droplet
-    name: "test"
+    name: test
     region_id: "{{ do_region }}"
     size_id: "{{ do_size }}"
     image_id: "{{ do_image }}"

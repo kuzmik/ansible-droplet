@@ -1,0 +1,62 @@
+---
+- stat: path=/usr/bin/lego
+  register: lego_binary
+
+- stat: path=/tmp/lego.tar.xz
+  register: lego_package
+
+- stat: path=/tmp/lego.tar
+  register: lego_tarball
+
+- name: Download lego
+  get_url: 
+    url: https://github.com/xenolf/lego/releases/download/v0.4.1/lego_linux_amd64.tar.xz
+    dest: /tmp/lego.tar.xz
+  when:
+    - lego_binary.stat.exists == False
+    - lego_package.stat.exists == False
+    - lego_tarball.stat.exists == False
+
+- stat: path=/tmp/lego.tar.xz
+  register: lego_package
+
+- name: Decompress lego archive
+  shell: xz -d /tmp/lego.tar.xz
+  when: 
+    - lego_binary.stat.exists == False
+    - lego_package.stat.exists == True
+    - lego_tarball.stat.exists == False
+
+- stat: path=/tmp/lego.tar.xz
+  register: lego_package
+
+- stat: path=/tmp/lego.tar
+  register: lego_tarball
+
+- name: Unpack lego
+  unarchive:
+    remote_src: yes
+    src: /tmp/lego.tar
+    dest: /tmp/
+  when:
+    - lego_binary.stat.exists == False
+    - lego_tarball.stat.exists == True
+
+- name: Install lego binary
+  copy: 
+    remote_src: yes 
+    src: /tmp/lego_linux_amd64
+    dest: /usr/bin/lego
+  when:
+    - lego_binary.stat.exists == False
+
+- find:
+    paths: /tmp/
+    patterns: "*"
+  register: files_to_delete
+
+- name: Cleanup /tmp
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ files_to_delete.files }}"
