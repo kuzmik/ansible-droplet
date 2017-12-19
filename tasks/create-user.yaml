@@ -10,7 +10,7 @@
 
 - file:
     path: /home/{{ ssh_user }}
-    mode: 0700
+    mode: 0711
 
 - name: Deploy ssh public key
   authorized_key: user="{{ ssh_user }}" key="{{ ssh_pub_key }}"

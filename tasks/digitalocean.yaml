@@ -3,7 +3,7 @@
   digital_ocean:
     state: active
     command: droplet
-    name: test
+    name: "{{ do_droplet_name }}"
     region_id: "{{ do_region }}"
     size_id: "{{ do_size }}"
     image_id: "{{ do_image }}"
@@ -24,7 +24,7 @@
 
 - name: Add new droplet to inventory
   add_host:
-    name: "test"
+    name: "{{ do_droplet_name }}"
     groups: dohosts
     ansible_ssh_host: "{{ do_droplet.droplet.ip_address }}"
     ansible_ssh_user: root

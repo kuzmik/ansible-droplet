@@ -6,12 +6,13 @@ do_api_token: ~
 do_ssh_name: root
 do_ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 do_ssh_private_key: "~/.ssh/id_rsa"
-do_ssh_key_fingerprint: a8:bc:fd:ff:be:42:18:d7:c3:f9:86:64:ee:6e:dd:b0
+do_ssh_key_fingerprint: 77:2d:f3:38:cd:47:40:2d:1b:1f:88:48:97:ce:97:e2
 
 # DO droplet settings
-do_region: sfo2
+do_region: nyc3
 do_size: 512mb
 do_image: "debian-9-x64"
+do_droplet_name: "debian-512mb-nyc3-02"
 
 # System user to create
 ssh_user: "nick"

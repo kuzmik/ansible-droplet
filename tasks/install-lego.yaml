@@ -47,6 +47,7 @@
     remote_src: yes 
     src: /tmp/lego_linux_amd64
     dest: /usr/bin/lego
+    mode: 0755
   when:
     - lego_binary.stat.exists == False
 

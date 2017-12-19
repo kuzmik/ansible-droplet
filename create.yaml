@@ -21,4 +21,4 @@
     - include_tasks: tasks/security.yaml
     - include_tasks: tasks/install-lego.yaml
     ## this task needs to be the last step because it changes sshd port and locks out root
-    - include_tasks: tasks/sshd.yaml
+    - include_tasks: tasks/restrict-sshd.yaml

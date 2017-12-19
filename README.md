@@ -35,7 +35,7 @@ Sub tasks:
 * `tasks/create-user.yaml`: creates my user, associates my key with the new user and drops a bashrc in the homedir
 * `tasks/security.yaml`: *super* basic system hardening, including adding my user to sudoers
 * `tasks/install-lego.yaml`: download the lego release, untar it, copy the binary to /usr/bin, and cleanup /tmp
-* `tasks/sshd.yaml`: further secures sshd; changes the port on which sshd listens to the configured port and disables root login; must be run last in the sequence because of this
+* `tasks/restrict-sshd.yaml`: further secures sshd; changes the port on which sshd listens to the configured port and disables root login; must be run last in the sequence because of this
 
 I unashamedly cribbed most of this stuff from other projects as I was learning ansible.
 
