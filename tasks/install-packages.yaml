@@ -10,9 +10,11 @@
 - name: Install useful/necessary packages
   apt: name={{ item }} state=latest
   with_items:
+    - curl
     - dnsutils
     - git
     - htop
+    - ipset
     - locate
     - net-tools
     - xz-utils
