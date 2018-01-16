@@ -127,5 +127,13 @@
     - sys
     - unscd
 
+# for some reason the previous command creates home directories
+- file:
+    path: /home/{{ item }}
+    ensure: absent
+  with_items:
+      - debian
+      - ntp
+
 - name: Secure root's home directory
   file: dest=/root state=directory mode=700
