@@ -128,7 +128,7 @@
     - unscd
 
 # for some reason the previous command creates home directories
-- file:
+- directory:
     path: /home/{{ item }}
     ensure: absent
   with_items:
