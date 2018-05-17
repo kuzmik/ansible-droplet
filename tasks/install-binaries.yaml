@@ -1,4 +1,5 @@
 ---
+### Lego
 - stat: path=/usr/bin/lego
   register: lego_binary
 
@@ -61,3 +62,19 @@
     path: "{{ item.path }}"
     state: absent
   with_items: "{{ files_to_delete.files }}"
+
+
+## minio-client (mc)
+- stat: path=/usr/bin/mc
+  register: mc_binary
+
+- name: Download minio client
+  get_url: 
+    url: https://dl.minio.io/client/mc/release/linux-amd64/mc
+    dest: /usr/bin/mc
+  when:
+    - mc_binary.stat.exists == False
+
+- file:
+    path: /usr/bin/mc
+    mode: 0755

@@ -18,3 +18,14 @@
     - locate
     - net-tools
     - xz-utils
+
+- name: Remove 'dbus' package
+  apt: name=dbus state=absent
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes

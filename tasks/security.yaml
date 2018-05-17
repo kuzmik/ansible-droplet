@@ -128,9 +128,9 @@
     - unscd
 
 # for some reason the previous command creates home directories
-- directory:
-    path: /home/{{ item }}
-    ensure: absent
+- file:
+    path: /home/{{ item }}/
+    state: absent
   with_items:
       - debian
       - ntp

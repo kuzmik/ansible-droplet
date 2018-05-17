@@ -45,3 +45,38 @@
     group: "{{ ssh_user }}"
     state: touch
     mode: 0600
+
+
+### Root
+- name: Setup bashrc
+  copy:
+    src: templates/bashrc
+    dest: /root/.bashrc
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    mode: 0600
+
+- file:
+    path: /root/{{ item }}
+    state: absent
+  with_items:
+    - .profile
+    - .bash_logout
+    - .cloud-locale-test.skip
+
+- file:
+    src: /root/.bashrc
+    dest: /root/.profile
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    state: link
+    mode: 0600
+
+- file:
+    path: /root/.hushlogin
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    state: touch
+    mode: 0600
+
+- lineinfile: dest=/root/.bashrc regexp="^PS1=" line="PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" backup=yes

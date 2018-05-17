@@ -16,9 +16,9 @@
     - include_tasks: tasks/install-packages.yaml
     - include_tasks: tasks/configure-system.yaml
     ## this task includes two reboots and two pauses if things change wrt systemd
-    - include_tasks: tasks/remove-systemd.yaml
+    # - include_tasks: tasks/remove-systemd.yaml
     - include_tasks: tasks/create-user.yaml
     - include_tasks: tasks/security.yaml
-    - include_tasks: tasks/install-lego.yaml
+    - include_tasks: tasks/install-binaries.yaml
     ## this task needs to be the last step because it changes sshd port and locks out root
     - include_tasks: tasks/restrict-sshd.yaml
