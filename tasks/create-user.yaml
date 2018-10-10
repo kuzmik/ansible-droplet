@@ -11,6 +11,8 @@
 - file:
     path: /home/{{ ssh_user }}/.ssh
     state: directory
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
     mode: 0700
 
 - name: Deploy ssh public key

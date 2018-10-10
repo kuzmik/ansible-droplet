@@ -3,50 +3,22 @@
 - stat: path=/usr/bin/lego
   register: lego_binary
 
-- stat: path=/tmp/lego.tar.xz
+- stat: path=/tmp/lego
   register: lego_package
-
-- stat: path=/tmp/lego.tar
-  register: lego_tarball
 
 - name: Download lego
-  get_url: 
-    url: https://github.com/xenolf/lego/releases/download/v0.4.1/lego_linux_amd64.tar.xz
-    dest: /tmp/lego.tar.xz
-  when:
-    - lego_binary.stat.exists == False
-    - lego_package.stat.exists == False
-    - lego_tarball.stat.exists == False
-
-- stat: path=/tmp/lego.tar.xz
-  register: lego_package
-
-- name: Decompress lego archive
-  shell: xz -d /tmp/lego.tar.xz
-  when: 
-    - lego_binary.stat.exists == False
-    - lego_package.stat.exists == True
-    - lego_tarball.stat.exists == False
-
-- stat: path=/tmp/lego.tar.xz
-  register: lego_package
-
-- stat: path=/tmp/lego.tar
-  register: lego_tarball
-
-- name: Unpack lego
   unarchive:
-    remote_src: yes
-    src: /tmp/lego.tar
+    remote_src: true
+    src: https://github.com/xenolf/lego/releases/download/v1.0.1/lego_v1.0.1_linux_amd64.tar.gz
     dest: /tmp/
   when:
     - lego_binary.stat.exists == False
-    - lego_tarball.stat.exists == True
+    - lego_package.stat.exists == False
 
 - name: Install lego binary
   copy: 
     remote_src: yes 
-    src: /tmp/lego_linux_amd64
+    src: /tmp/lego
     dest: /usr/bin/lego
     mode: 0755
   when:
@@ -63,7 +35,6 @@
     state: absent
   with_items: "{{ files_to_delete.files }}"
 
-
 ## minio-client (mc)
 - stat: path=/usr/bin/mc
   register: mc_binary
@@ -77,4 +48,19 @@
 
 - file:
     path: /usr/bin/mc
+    mode: 0755
+
+## certigo
+- stat: path=/usr/bin/certigo
+  register: certigo_binary
+
+- name: Download certigo
+  get_url:
+    url: https://github.com/square/certigo/releases/download/v1.10.0/certigo-linux-amd64
+    dest: /usr/bin/certigo
+  when:
+    certigo_binary.stat.exists == False
+
+- file:
+    path: /usr/bin/certigo
     mode: 0755

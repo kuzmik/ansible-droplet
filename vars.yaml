@@ -12,7 +12,7 @@ do_ssh_key_fingerprint: ["77:2d:f3:38:cd:47:40:2d:1b:1f:88:48:97:ce:97:e2", "7f:
 do_region: nyc3
 do_size: 512mb
 do_image: "debian-9-x64"
-do_droplet_name: "debian-512mb-nyc3-01"
+do_droplet_name: "elk.oub"
 
 # System user to create
 ssh_user: "nick"

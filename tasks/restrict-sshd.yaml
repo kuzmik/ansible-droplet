@@ -1,3 +1,4 @@
+---
 - name: Strict SSH access
   lineinfile:
     dest: /etc/ssh/sshd_config
@@ -16,3 +17,8 @@
     - { key: 'Port',                   value: '{{ ssh_port }}' }
     - { key: 'X11Forwarding',          value: 'no' }
   notify: restart sshd
+
+- name: Remove root authorized keys
+  file:
+    path: /root/.ssh/
+    state: absent
