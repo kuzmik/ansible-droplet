@@ -8,16 +8,19 @@
     upgrade: dist
 
 - name: Install useful/necessary packages
-  apt: name={{ item }} state=latest
-  with_items:
-    - curl
-    - dnsutils
-    - git
-    - htop
-    - ipset
-    - locate
-    - net-tools
-    - xz-utils
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - curl
+      - dnsutils
+      - git
+      - htop
+      - ipset
+      - locate
+      - net-tools
+      - xz-utils
 
 - name: Remove 'dbus' package
   apt: name=dbus state=absent

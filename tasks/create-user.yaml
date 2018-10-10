@@ -9,11 +9,18 @@
     createhome: yes
 
 - file:
-    path: /home/{{ ssh_user }}
-    mode: 0711
+    path: /home/{{ ssh_user }}/.ssh
+    state: directory
+    mode: 0700
 
 - name: Deploy ssh public key
-  authorized_key: user="{{ ssh_user }}" key="{{ ssh_pub_key }}"
+  copy:
+    remote_src: yes
+    src: /root/.ssh/authorized_keys
+    dest: /home/{{ ssh_user }}/.ssh/authorized_keys
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    mode: 0600
 
 - name: Setup bashrc
   copy:
