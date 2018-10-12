@@ -6,13 +6,13 @@ do_api_token: ~
 do_ssh_name: root
 do_ssh_pub_key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
 do_ssh_private_key: "~/.ssh/id_ed25519"
-do_ssh_key_fingerprint: ["77:2d:f3:38:cd:47:40:2d:1b:1f:88:48:97:ce:97:e2", "7f:6a:71:08:1a:2c:bf:2c:92:82:3d:6d:13:d1:c0:83"]
+do_ssh_key_fingerprint: ["19:3f:59:71:95:db:de:c7:13:8f:ec:ca:c0:d9:0e:84", "7f:6a:71:08:1a:2c:bf:2c:92:82:3d:6d:13:d1:c0:83"]
 
 # DO droplet settings
 do_region: nyc3
 do_size: 512mb
 do_image: "debian-9-x64"
-do_droplet_name: "elk.oub"
+do_droplet_name: "build"
 
 # System user to create
 ssh_user: "nick"
