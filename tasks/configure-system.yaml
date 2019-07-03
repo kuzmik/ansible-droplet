@@ -26,7 +26,7 @@
   notify:
     - reload sysctl
 
-- name: Enabled ntp
+- name: Enable ntp
   service: name=ntp enabled=yes state=started
 
 - name: Disable unscd

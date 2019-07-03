@@ -3,12 +3,15 @@
 These are some Ansible playbooks that I use to create a digitalocean droplet and then configure it the way I like. It provisions a (very small, currently) Debian 9/x64 system and does some configuration to make it the way I like.
 
 ## Getting started
-Install the required python libraries. I prefer to use a virtualenv when doing python in order to keep the libraries separate; if this is not desired, omit lines 3 and 4 from the following block
+You need python. On my mac, I just use python3:
+```bash
+brew install python
 ```
+
+Then install the required python libraries:
+```bash
 git clone git@github.com:kuzmik/ansible-droplet.git
 cd ansible-droplet
-mkvirtualenv droplet
-workon droplet
 pip install -r requirements.txt
 ansible-playbook create.yaml
 ```
@@ -31,7 +34,7 @@ Sub tasks:
 * `tasks/digitalocean.yaml`: creates the droplet
 * `tasks/install-packages.yaml`: installs some base packages that I use
 * `tasks/configure-system.yaml`: random system config stuff, like disabling ipv6
-* `tasks/remove-system.yaml`: installs sysvinit and *completely eradicates* systemd from the system (other than the shim library to let modern apps function sans systemd); includes two separate reboots
+* `tasks/remove-systemd.yaml`: installs sysvinit and *completely eradicates* systemd from the system (other than the shim library to let modern apps function sans systemd); includes two separate reboots. [Currently disabled because debian gets into a state after a short time]
 * `tasks/create-user.yaml`: creates my user, associates my key with the new user and drops a bashrc in the homedir
 * `tasks/security.yaml`: *super* basic system hardening, including adding my user to sudoers
 * `tasks/install-lego.yaml`: download the lego release, untar it, copy the binary to /usr/bin, and cleanup /tmp
