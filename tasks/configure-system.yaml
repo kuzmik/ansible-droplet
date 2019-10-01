@@ -26,8 +26,13 @@
   notify:
     - reload sysctl
 
+- name: Get rid of the extra gettys
+  file:
+    path: /lib/systemd/system/getty.target.wants/
+    state: absent
+
 - name: Enable ntp
   service: name=ntp enabled=yes state=started
 
 - name: Disable unscd
-  service: name=unscd enabled=no state=stopped    
+  service: name=unscd enabled=no state=stopped

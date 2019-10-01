@@ -11,8 +11,8 @@ do_ssh_key_fingerprint: ["19:3f:59:71:95:db:de:c7:13:8f:ec:ca:c0:d9:0e:84", "7f:
 # DO droplet settings
 do_region: nyc3
 do_size: 512mb
-do_image: "debian-9-x64"
-do_droplet_name: "ircd"
+do_image: "debian-10-x64"
+do_droplet_name: "sinope"
 
 # System user to create
 ssh_user: "nick"

@@ -6,18 +6,19 @@
 - stat: path=/tmp/lego
   register: lego_package
 
+# https://github.com/go-acme/lego/releases
 - name: Download lego
   unarchive:
     remote_src: true
-    src: https://github.com/go-acme/lego/releases/download/v2.6.0/lego_v2.6.0_linux_amd64.tar.gz
+    src: https://github.com/go-acme/lego/releases/download/v3.0.2/lego_v3.0.2_linux_amd64.tar.gz
     dest: /tmp/
   when:
     - lego_binary.stat.exists == False
     - lego_package.stat.exists == False
 
 - name: Install lego binary
-  copy: 
-    remote_src: yes 
+  copy:
+    remote_src: yes
     src: /tmp/lego
     dest: /usr/bin/lego
     mode: 0755
@@ -36,24 +37,25 @@
   with_items: "{{ files_to_delete.files }}"
 
 ## minio-client (mc)
-- stat: path=/usr/bin/mc
-  register: mc_binary
+# - stat: path=/usr/bin/mc
+#   register: mc_binary
 
-- name: Download minio client
-  get_url: 
-    url: https://dl.minio.io/client/mc/release/linux-amd64/mc
-    dest: /usr/bin/mc
-  when:
-    - mc_binary.stat.exists == False
+# - name: Download minio client
+#   get_url:
+#     url: https://dl.minio.io/client/mc/release/linux-amd64/mc
+#     dest: /usr/bin/mc
+#   when:
+#     - mc_binary.stat.exists == False
 
-- file:
-    path: /usr/bin/mc
-    mode: 0755
+# - file:
+#     path: /usr/bin/mc
+#     mode: 0755
 
 ## certigo
 - stat: path=/usr/bin/certigo
   register: certigo_binary
 
+# https://github.com/square/certigo/releases
 - name: Download certigo
   get_url:
     url: https://github.com/square/certigo/releases/download/v1.11.0/certigo-linux-amd64
